@@ -1,8 +1,63 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model InMemoryContractsRepository
+
+@{
+    ViewData["Title"] = "Contracts";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">RusTelecom</h1>
+    <h3 class="contracts__title">Список контрактов</h3>
+
+    <table class="contracts__table">
+        <thead>
+            <tr class="contracts__table-header">
+                <th>ФИО</th>
+                <th>Ip адрес</th>
+                <th>Тип услуги</th>
+                <th>Дата заключения договора</th>
+                <th>Статус услуги</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var @contract in Model.Contracts)
+            {
+                <tr class="contracts__table-row">
+                    <td>@(contract.Lastname + " " + @contract.Firstname + " " + @contract.Secondname)</td>
+                    <td>@contract.IP</td>
+                    <td>@contract.Service</td>
+                    <td>@contract.Date.ToString("dd-MM-yyyy")</td>
+                    <td>
+                        <button class="contracts__table-row-status-btn provided">Предоставляется</button>
+                    </td>
+                    <td>
+                        <a asp-controller="Contract" asp-action="Edit" asp-route-contractId="@contract.Id" class="contracts__table-row-edit-btn">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-controller="Contract" asp-action="Edit" class="contracts__new-btn">Добавить контракт</a>
 </div>
+
+
+
+<script>
+    let buttons = document.querySelectorAll(".contracts__table-row-status-btn");
+
+    for (let btn of buttons) {
+        btn.onclick = () => {
+
+            btn.classList.toggle("provided");
+            btn.classList.toggle("declined");
+
+            if (btn.classList.contains("provided")) {
+                btn.textContent = "Предоставляется";
+            }
+            else {
+                btn.textContent = "Отказано";
+            }
+        }
+    }
+</script>

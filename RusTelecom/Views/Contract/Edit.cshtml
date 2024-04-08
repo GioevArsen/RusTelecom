@@ -1,0 +1,51 @@
+﻿@model Contract
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@(@Model == null ? "Новый контракт" : $"Контракт №{Model.Id}")</h1>
+
+    <form action="/Contract/Change" method="post" class="contract-form">
+        <div asp-validation-summary="None" style="display: none"></div>
+        @if(Model != null)
+        {
+            @Html.Hidden("contractId", Model.Id)
+        }
+
+        <div class="contract-form-group">
+            <input asp-for="Lastname" type="text" id="lastname" class="contract-form__input" placeholder="Фамилия" required>
+            <span asp-validation-for="Lastname" class="contract-form__warning"></span>
+        </div>
+        <div class="contract-form-group">
+            <input asp-for="Firstname" type="text" id="firstname" class="contract-form__input" placeholder="Имя" required>
+            <span asp-validation-for="Firstname" class="contract-form__warning"></span>
+        </div>
+        <div class="contract-form-group">
+            <input asp-for="Secondname" type="text" id="secondname" class="contract-form__input" placeholder="Отчество" required>
+            <span asp-validation-for="Secondname" class="contract-form__warning"></span>
+        </div>
+
+        <div class="contract-form-group">
+            <select asp-for="Service" id="service" class="contract-form__select" required>
+                <option value="Интернет">Интернет</option>
+                <option value="Видеонаблюдение">Видеонаблюдение</option>
+                <option value="IP-телефония">IP-телефония</option>
+            </select>
+            <span asp-validation-for="Service" class="contract-form__warning"></span>
+        </div>
+
+        <div class="contract-form-group">
+            <input asp-for="IP" type="text" id="ip" class="contract-form__input" placeholder="IP адрес" required>
+            <span asp-validation-for="IP" class="contract-form__warning"></span>
+        </div>
+
+        <div class="contract-form-group">
+            <input asp-for="Date" type="date" id="date" class="contract-form__input" required>
+            <span asp-validation-for="Date" class="contract-form__warning"></span>
+        </div>
+
+        <button type="submit" class="contract-form__submit">Сохранить</button>
+    </form>
+</div>
